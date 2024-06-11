@@ -4,34 +4,46 @@ import os
 import json
 
 # Load the dataset
-df = pd.read_csv('training_dataset.csv')
-json_data = df.to_json(orient='records')
+df = pd.read_csv("training_dataset.csv")
+json_data = df.to_json(orient="records")
 
 # Load prompts once
-with open('/Users/blake/LeaderAI/prompts/prompt_a.txt') as f:
+with open("/Users/blake/LeaderAI/prompts/prompt_a.txt") as f:
     inaccurate_response_prompt = f.read()
 
-with open('/Users/blake/LeaderAI/prompts/prompt_b.txt') as f:
+with open("/Users/blake/LeaderAI/prompts/prompt_b.txt") as f:
     broad_response_prompt = f.read()
 
-with open('/Users/blake/LeaderAI/prompts/prompt_c.txt') as f:
+with open("/Users/blake/LeaderAI/prompts/prompt_c.txt") as f:
     ideal_response_prompt = f.read()
 
 # Initialize OpenAI client
-client = openai.OpenAI(api_key=os.getenv('OPENAI_KEY'))
+client = openai.OpenAI(api_key=os.getenv("OPENAI_KEY"))
+
 
 def generate_synthetic_example(prompt):
-    required_keys = ['Model Context', 'Response', 'Response Score (1 to 10)', 'Additional Feedback', 'Cluster']
+    required_keys = [
+        "Model Context",
+        "Response",
+        "Response Score (1 to 10)",
+        "Additional Feedback",
+        "Cluster",
+    ]
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are an expert at generating synthetic data."},
-                {"role": "user", "content": prompt}
-            ]
+                {
+                    "role": "system",
+                    "content": "You are an expert at generating synthetic data.",
+                },
+                {"role": "user", "content": prompt},
+            ],
         )
         # Correctly accessing the message content from the API response
-        response_json = json.loads(response.choices[0].message.content)  # Changed 'message.content' to 'text'
+        response_json = json.loads(
+            response.choices[0].message.content
+        )  # Changed 'message.content' to 'text'
 
         if set(response_json.keys()) == set(required_keys):
             return response_json
@@ -39,10 +51,15 @@ def generate_synthetic_example(prompt):
         print(f"Error generating synthetic example: {e}")
         return None
 
+
 # Generate synthetic examples
 synthetic_examples = []
 for i in range(500):
-    for prompt in [inaccurate_response_prompt, broad_response_prompt, ideal_response_prompt]:
+    for prompt in [
+        inaccurate_response_prompt,
+        broad_response_prompt,
+        ideal_response_prompt,
+    ]:
         synthetic_example = generate_synthetic_example(prompt)
         if synthetic_example:
             synthetic_examples.append(synthetic_example)
@@ -57,7 +74,7 @@ original_data.extend(synthetic_examples)
 updated_json_data = json.dumps(original_data, indent=2)
 
 # Save the updated JSON data to a file
-with open('updated_training_dataset.json', 'w') as f:
+with open("updated_training_dataset.json", "w") as f:
     f.write(updated_json_data)
 
 print("Synthetic examples added and saved to 'updated_training_dataset.json'")
