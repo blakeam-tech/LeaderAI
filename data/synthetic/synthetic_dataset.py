@@ -1,5 +1,6 @@
 import pandas as pd
 import openai
+import os
 import json
 
 # Load the dataset
@@ -17,7 +18,7 @@ with open('/Users/blake/LeaderAI/prompts/prompt_c.txt') as f:
     ideal_response_prompt = f.read()
 
 # Initialize OpenAI client
-client = openai.OpenAI(api_key='sk-proj-cnT1KkofCEUdTDPHeVWLT3BlbkFJY1p393Se9HPFPDuvbHTh')  # Replace 'your-api-key-here' with your actual API key
+client = openai.OpenAI(api_key=os.getenv('OPENAI_KEY'))
 
 def generate_synthetic_example(prompt):
     required_keys = ['Model Context', 'Response', 'Response Score (1 to 10)', 'Additional Feedback', 'Cluster']
