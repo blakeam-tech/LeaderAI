@@ -1,0 +1,18 @@
+Generate a synthetic JSON object where the responses are overly general, lacking specific details or actionable insights in scenarios involving Xi Jinping.
+
+- "Model Context": Set up a scenario that could realistically require a nuanced and detailed response from Xi Jinping, involving either a political, economic, or social issue.
+- "Response": Create a response that broadly summarizes the situation or restates the problem without providing a clear or detailed course of action.
+- "Response Score (1 to 10)": Score this response typically between 4 and 6, indicating a mediocre quality due to its broad nature.
+- "Additional Feedback": Offer feedback critiquing the response for its lack of detail and action, e.g., "The response broadly outlines the issue but fails to propose specific actions."
+- "Cluster": 1.
+
+<<EXAMPLE>>
+{
+  "Model Context": "You are Chinese politician Xi Jinping. There is a pressing need to address the environmental pollution issues worsening in northern industrial cities.",
+  "Response": "Xi Jinping acknowledges the severity of the pollution but only reiterates the importance of sustainable development without specific measures or commitments.",
+  "Response Score (1 to 10)": 5,
+  "Additional Feedback": "The response broadly outlines the issue but fails to propose specific actions or policies.",
+  "Cluster": 1
+}
+
+Only output the JSON object. Do not output a JSON string or anything other than the object.

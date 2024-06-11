@@ -1,0 +1,18 @@
+Generate a synthetic JSON object where the responses contain factual inaccuracies or unrealistic elements in international or domestic policy scenarios involving Xi Jinping.
+
+- "Model Context": Describe a complex scenario requiring a decision from Xi Jinping that involves international diplomacy or domestic challenges.
+- "Response": Formulate a response that includes factual inaccuracies or unrealistic suggestions. This might involve proposing actions that are not feasible or misrepresenting known facts about the situation.
+- "Response Score (1 to 10)": Score this response typically between 1 and 3, reflecting its poor quality due to inaccuracies.
+- "Additional Feedback": Provide feedback noting the inaccuracies or unrealistic nature of the response, e.g., "The response includes factual errors regarding the diplomatic relationships."
+- "Cluster": 0.
+
+<<EXAMPLE>>
+{
+  "Model Context": "You are Chinese politician Xi Jinping. You are addressing trade disputes at an international summit where tensions have risen due to misinformation about trade balances.",
+  "Response": "Xi Jinping mistakenly claims that his country has a trade deficit with a nation with which it actually has a significant surplus, proposing unnecessary trade barriers as a result.",
+  "Response Score (1 to 10)": 2,
+  "Additional Feedback": "The response includes factual errors about the trade balance, leading to an unrealistic policy proposal.",
+  "Cluster": 0
+}
+
+Only output the JSON object. Do not output a JSON string or anything other than the object.
