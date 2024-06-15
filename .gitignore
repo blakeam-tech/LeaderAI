@@ -10,6 +10,8 @@ __pycache__/
 */.DS_Store
 **/.DS_Store
 
+firebase_credentials.json
+
 # Distribution / packaging
 .Python
 build/
