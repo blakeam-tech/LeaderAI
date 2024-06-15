@@ -1,3 +1,9 @@
+"""
+This module performs clustering analysis on the feedback from a dataset. It preprocesses
+the text data, applies TF-IDF vectorization, and uses KMeans clustering to identify patterns.
+"""
+
+import math
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
@@ -5,7 +11,6 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
-import math
 
 # Download necessary NLTK resources
 nltk.download("stopwords")
@@ -36,6 +41,16 @@ stop_words = set(stopwords.words("english"))
 
 
 def preprocess(text):
+    """
+    Preprocesses the input text by tokenizing, converting to lowercase,
+    removing stopwords, and lemmatizing the tokens.
+
+    Args:
+        text (str): The text to be processed.
+
+    Returns:
+        str: The processed text.
+    """
     tokens = nltk.word_tokenize(text.lower())
     lemmatized = [
         lemmatizer.lemmatize(token)
@@ -52,8 +67,8 @@ vectorizer = TfidfVectorizer(max_features=100)
 X = vectorizer.fit_transform(processed_reasons)
 
 # Clustering
-n_clusters = 2  # Adjust the number of clusters based on your data
-model = KMeans(n_clusters=n_clusters, random_state=42)
+N_CLUSTERS = 2  # Adjust the number of clusters based on your data
+model = KMeans(n_clusters=N_CLUSTERS, random_state=42)
 model.fit(X)
 
 # Assign the cluster labels to the original data
@@ -90,18 +105,17 @@ plt.show()
 print("Top terms per cluster:")
 order_centroids = model.cluster_centers_.argsort()[:, ::-1]
 terms = vectorizer.get_feature_names_out()
-for i in range(n_clusters):
+for i in range(N_CLUSTERS):
     top_terms = [terms[ind] for ind in order_centroids[i, :10]]
     print(f"Cluster {i}: {', '.join(top_terms)}")
 
 # Review the clusters
-for i in range(n_clusters):
+for i in range(N_CLUSTERS):
     print(f"\nCluster {i} reasons:")
     print(
         unsatisfactory_answers[unsatisfactory_answers["Cluster"] == i][
             "Additional Feedback"
         ].tolist()
     )
-
 
 final_dataset.to_csv("training_dataset.csv")

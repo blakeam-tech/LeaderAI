@@ -1,3 +1,8 @@
+"""
+This module trains and selects the best text classification model using various classifiers and GridSearchCV.
+It loads a dataset, processes it, and evaluates multiple classifiers to find the best one.
+"""
+
 import pandas as pd
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
@@ -18,17 +23,13 @@ X = data["Response"]
 y = data["Cluster"]
 
 # Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, random_state=0
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 
 # Define a Pipeline that includes vectorization and a placeholder for the classifier
-pipeline = Pipeline(
-    [
-        ("vect", CountVectorizer()),
-        ("clf", LogisticRegression()),  # Placeholder, will be replaced in grid search
-    ]
-)
+pipeline = Pipeline([
+    ("vect", CountVectorizer()),
+    ("clf", LogisticRegression()),  # Placeholder, will be replaced in grid search
+])
 
 # Define the parameter grid, note that `clf` is a step in the pipeline
 param_grid = [
@@ -68,13 +69,13 @@ grid_search = GridSearchCV(pipeline, param_grid, cv=5, verbose=2, n_jobs=-1)
 grid_search.fit(X_train, y_train)
 
 # Best model and parameters
-print("Best Parameters:", grid_search.best_params_)
-print("Best Cross-validation Score: {:.3f}".format(grid_search.best_score_))
+print(f"Best Parameters: {grid_search.best_params_}")
+print(f"Best Cross-validation Score: {grid_search.best_score_:.3f}")
 
 # Evaluate on the test set
 best_model = grid_search.best_estimator_
 test_accuracy = best_model.score(X_test, y_test)
-print("Test Set Accuracy: {:.3f}".format(test_accuracy))
+print(f"Test Set Accuracy: {test_accuracy:.3f}")
 
 # Serialize the best model
 dump(best_model, "best_text_classifier.joblib")
